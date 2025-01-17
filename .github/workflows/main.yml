@@ -1,0 +1,23 @@
+name: Push To main and echo print
+on:
+  push:
+    branches:
+    - main
+
+#井字號是用來備註
+jobs:  #下面開始定義「job 任務」
+  Echo-Something: #job名稱（不允許空格)，job 底下需要 runs-on 或 uses（用別人的workflow）
+      runs-on: ubuntu-latest #執行的作業系統
+      
+      steps: #下面開始定義「step 步驟」，每個步驟可以是 -uses開頭（不取名，用別人的Action），或是 -name開頭先定義名稱，接著定義動作 Action
+      - uses: actions/checkout@v4 #有要操作儲存庫程式碼的工作流任務，必須要用checkout，建議是都要加
+      
+      - name: Echo Someting #步驟名稱
+        run: echo "hello" #以作業系統環境執行命令，echo是印出指定文字內容
+
+      - name: Build image from dockerfile
+        run: |-
+          docker build -t print-message .
+          docker run print-message
+  
+
